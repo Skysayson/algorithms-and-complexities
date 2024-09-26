@@ -30,14 +30,26 @@ void bubbleSort(int arr[], int size)
     }
 }
 
+void selectionSort(int arr[], int size) 
+{
+    int x,y,SmallIdx = 0;
+    for(x = 0; x < size-1; x++) {
+        SmallIdx = x;
+        for(y = x+1; y < size; y++) {
+            if(arr[SmallIdx] > arr[y]) {
+                SmallIdx = y;
+            }
+        }
+        swap(&arr[x], &arr[SmallIdx]);
+    }
+}
+
 void combSort(int arr[], int size) 
 {
-    int x, gap = size, swapped = 1;
+    int x, gap = size, swapped = 0;
 
-    while(gap > 1 || swapped) {
+    while(gap > 1 || !swapped) {
         gap /= 1.3;
-        swapped = 0;
-
         for(x = 0; x + gap < size; x++) {
             if(arr[x] > arr[x + gap]) {
                 swap(&arr[x], &arr[x + gap]);

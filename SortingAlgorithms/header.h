@@ -7,5 +7,6 @@ void displayArr(int arr[], int size);
 void swap(int *x, int *y);
 void bubbleSort(int arr[], int size);
 void combSort(int arr[], int size);
+void selectionSort(int arr[], int size);
 
 #endif
