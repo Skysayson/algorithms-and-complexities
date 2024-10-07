@@ -7,6 +7,11 @@ typedef struct {
     int elems[SIZE], lastIndx;
 } Array;
 
+typedef struct node {
+    int data;
+    struct node* link;
+} *LinkedList;
+
 // Function Prototypes
 void insertionSort(int arr[], int size);
 void displayArr(int arr[], int size);
@@ -23,7 +28,8 @@ void heapify(Array *HEAP);
 int deleteMax(Array* HEAP);
 void heapSort(Array *HEAP);
 void heapifySubtree(Array *HEAP, int i);
-void countingSort(int arr[], int size);
+int *countingSort(int arr[], int size);
+void bucketSort(int arr[], int size);
 
 //  Tree functions
 

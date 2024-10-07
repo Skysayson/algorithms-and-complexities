@@ -250,10 +250,39 @@ void heapSort(Array *HEAP)
     HEAP->lastIndx = origLastIdx;
 }
 
-void countingSort(int arr[], int size)
+// Sort in original input array implementation
+// void countingSort(int arr[], int size)
+// {
+//     int y, x, max = 0;
+//     int *countArr;
+//     for (x = 0; x < size; x++) {
+//         if (arr[x] > max) {
+//             max = arr[x];
+//         }
+//     }
+
+//     countArr = calloc(max + 1, sizeof(int));
+
+//     for (x = 0; x < size; x++) {
+//         countArr[arr[x]]++;
+//     }
+
+//     int index = 0;
+//     for (y = 0; y <= max; y++) {
+//         while (countArr[y] > 0) {
+//             arr[index] = y;
+//             index++;
+//             countArr[y]--;
+//         }
+//     }
+// }
+
+// Add prefix implementation
+int *countingSort(int arr[], int size)
 {
-    int y, x, max = 0;
-    int *countArr;
+    int x, y, max = 0;
+
+    // find max
     for (x = 0; x < size; x++)
     {
         if (arr[x] > max)
@@ -262,22 +291,64 @@ void countingSort(int arr[], int size)
         }
     }
 
-    countArr = calloc(max + 1, sizeof(int));
+    // init countArray and output array
+    int *countArr = calloc(max + 1, sizeof(int));
 
-    int putVal = 0;
     for (x = 0; x < size; x++)
     {
         countArr[arr[x]]++;
     }
 
-    int index = 0;
-    for (y = 0; y <= max; y++)
+    for (x = 1; x <= max; x++)
     {
-        while (countArr[y] > 0)
-        {
-            arr[index] = y;
-            index++;
-            countArr[y]--;
+        countArr[x] += countArr[x - 1];
+    }
+
+    int *outputArr = calloc(size, sizeof(int));
+    for (x = size - 1; x >= 0; x--)
+    {
+        int elem = arr[x];
+        outputArr[countArr[elem] - 1] = elem;
+        countArr[elem]--;
+    }
+
+    free(countArr);
+
+    return outputArr;
+}
+
+void bucketSort(int arr[], int size) 
+{
+    int x, max,min;
+    max = min = arr[0];
+    for(x = 1; x < size; x++) {
+        if(arr[x] > max) { max = arr[x]; }
+        if(arr[x] < min) { min = arr[x]; }
+    }
+
+    int buckets = (max - min) / size; 
+    LinkedList bucketArr[buckets], *trav;
+
+    for(x = 0; x < size; x++) {
+        bucketArr[x] = NULL;
+    }
+
+    int bucket = 0;
+    for(x = 0; x < size; x++) {
+        bucket = (arr[x] - min)*(buckets)/(max-min+1); //basically a hash function
+        for(trav = &bucketArr[bucket]; (*trav) != NULL && (*trav)->data < arr[x]; trav = &(*trav)->link) {}
+            LinkedList newNode = (LinkedList)malloc(sizeof(struct node));
+            newNode->data = arr[x];
+            newNode->link = (*trav);
+            (*trav) = newNode;     
+    }
+
+    int flag = 0;
+    for(x = 0; x < size; x++) {
+        for(trav = &bucketArr[x]; (*trav) != NULL; trav = &(*trav)->link) {
+            arr[flag] = (*trav)->data;
+            flag++;
         }
     }
+    
 }
