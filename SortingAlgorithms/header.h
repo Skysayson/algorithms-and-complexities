@@ -30,6 +30,9 @@ void heapSort(Array *HEAP);
 void heapifySubtree(Array *HEAP, int i);
 int *countingSort(int arr[], int size);
 void bucketSort(int arr[], int size);
+void gnomeSort(int arr[], int size);
+void radixSort(int arr[], int size);
+
 
 //  Tree functions
 
